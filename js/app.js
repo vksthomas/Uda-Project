@@ -12,7 +12,12 @@ let count_move = 0;
 var first_card;
 var second_card;       
 var move_var;
-
+let match_card =0;
+let t_minutes = 0;
+let t_seconds = 0;
+let star_count = 3;
+let conf = true;
+let t;
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below*/
@@ -75,7 +80,8 @@ arrayevent.forEach(element =>
                             //count++;
                             if(element.classList.length == 1 && count_move !=3 && moves >= 0)
                          {
-                                element.classList.add("open","show");
+                            
+                            element.classList.add("open","show");
                                 // console.log(element.classList[3]);
                                 let y = element.getElementsByClassName("fa");
                                /* if(y[0].classList.length == 1);
@@ -130,7 +136,25 @@ arrayevent.forEach(element =>
                                             first_card_match.classList.add("match");
                                             second_card_match.classList.add("match");
                                             count = 0;
+                                            
                                             moves = moves + 1;
+                                            move_var = document.body.getElementsByClassName("moves")[0];
+                                             move_var.innerText = moves;
+                                             match_card++;
+                                             if(match_card === 8){
+                                                 setTimeout(function(){
+                                                let conf = confirm("You Completed This Game in "+ t_seconds + " seconds and in "+moves+" moves"+"\nYou got "+star_count+" star" +"\nDo You Want to Play it again ?" );
+                                            
+                                                 if (conf == true) {
+                                                    resetFunction();
+                                                } else {
+                                                    stop_interval();
+                                                }
+                                                
+                                                
+                                                },500);
+                                             }
+                                        
                                             //console.log(count);
                                         }
                                         //console.log(count);
@@ -157,16 +181,25 @@ arrayevent.forEach(element =>
                                                         
                                             }
                                             count = 0;
+                                            
                                      //console.log(count);       
                                 }
                                 //console.log(count);
-                                if(moves == 3)
+                                if(moves === 5 || moves === 10)
                                 {
-                                    var star_count = document.getElementsByClassName("stars");
-                                    console.log(star_count);
-                                    star_count[0].removeChild(star_count[0].childNodes[0]);
-                                    star_count[0].removeChild(star_count[0].childNodes[0]);
-                                }     
+                                    var rmv_star = document.getElementsByClassName("stars");
+                                    
+                                    
+                                    rmv_star[0].removeChild(rmv_star[0].childNodes[0]);
+                                    star_count= rmv_star[0].childElementCount;
+                                    //star_count[0].removeChild(star_count[0].childNodes[0]);
+                                } 
+                                setTimeout(function(){
+                                    if(moves === 0){
+                                        timer();
+                                    }       
+                                },1000);
+                                
                         
                         }
                          
@@ -181,30 +214,25 @@ arrayevent.forEach(element =>
 
 
 
+     function timer(){
+        {
+        
+           t = setInterval(function()
+                {
+                        t_seconds++;
+                        let t_count = document.getElementsByClassName("timer_count")[0];
+                        //let t_seconds_text = t_seconds;
+                        //console.log(t_count);
+                        t_count.innerHTML = " "+t_seconds;
+                        //console.log(t_count.innerHTML);
+                    },1000);
+        }
+     }
+     function stop_interval(){
+         clearInterval(t);
+     }
      
-    
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
      function resetFunction(){
        location.reload();
          };
